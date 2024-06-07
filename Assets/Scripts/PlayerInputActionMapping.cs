@@ -2,37 +2,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
-
 [RequireComponent(typeof(CharacterController))]
 public class PlayerInputActionMapping : MonoBehaviour
 {
-    // Cache variables
-    private Vector2 m_MoveCache;    // 2D vector from Input system
+    public const string KeyboardControlScheme = "Keyboard&Mouse";
 
-    private Vector3 m_LocalForward; // Normalized forward vector for player, relative to camera
-    private Vector3 m_LocalLeft;    // Normalized left vector for player, relative to camera
-
-    private Vector3 m_Target;       // Projectile target, probably need to separate movement and shooting
-    private Plane m_TargetPlane;    // In-memory plane used for calculating raycasts from player in world space
-
-    public Vector3 MovementVector { get; private set; }         // Converted 3D vector defining player movement
-
-    [Header("Projectile Settings")]
-    [SerializeField] private bool m_AutoFire = false;
-    private bool m_ActiveFire = false;
-    private bool m_QueueProjectile = false; // Should a single projectile be fired?
-    private bool m_MarkDirty = false;       // Should recalculate local direction vectors?
-    private bool m_CanFire = true;          // Can a projectile be generated?
-
-    private float m_ProjectileElapsed;      // Time since last projectile
-
-
-    [SerializeField] private CharacterController m_Character;
-    [SerializeField] private Animator m_Animator;
-    [SerializeField] private ProjectilePool m_ProjectilePool;
-
-    [Header("Debug Settings")]
-    [SerializeField, Tooltip("Only shown in Scene view")] private bool m_ShowDebugRays = true;
+    public static readonly int AnimatorMovementSpeedKey = Animator.StringToHash("MovementSpeed");
 
 
     // Player movement values determined by player stats
@@ -42,9 +17,37 @@ public class PlayerInputActionMapping : MonoBehaviour
     [HideInInspector] public float ProjectileSpeed = 1f;
     [HideInInspector] public float ProjectileRange = 1f;
 
+    // Cache variables
+    private Vector2 m_MoveCache;    // 2D vector from Input system for player movement
+    private Vector2 m_LookCache;    // 2D vector from Input system for 
 
-    private bool MouseControl = true;
+    private Vector3 m_LocalForward; // Normalized forward vector for player, relative to camera
+    private Vector3 m_LocalLeft;    // Normalized left vector for player, relative to camera
 
+    private Vector3 m_Target;       // Projectile target, probably need to separate movement and shooting
+    private Plane m_TargetPlane;    // In-memory plane used for calculating raycasts from player in world space
+
+
+    [Header("Projectile Settings")]
+    [SerializeField] private bool m_AutoFire = false;
+    private bool m_ActiveFire = false;
+    private bool m_QueueProjectile = false; // Should a single projectile be fired?
+    private bool m_MarkDirty = false;       // Should recalculate local direction vectors?
+    private bool m_CanFire = true;          // Can a projectile be generated?
+    private bool m_MouseControl = true;     // Indicates whether the mouse is providing input.
+                                            // If false, inputs are coming from joystick/controller
+
+    private float m_ProjectileElapsed;      // Time since last projectile
+
+    [SerializeField] private CharacterController m_Character;
+    [SerializeField] private Animator m_Animator;
+    [SerializeField] private ProjectilePool m_ProjectilePool;
+
+    [Header("Debug Settings")]
+    [SerializeField, Tooltip("Only shown in Scene view")] private bool m_ShowDebugRays = true;
+
+    // Properties
+    public Vector3 MovementVector { get; private set; }         // Converted 3D vector defining player movement
 
     private void OnValidate()
     {
@@ -70,11 +73,10 @@ public class PlayerInputActionMapping : MonoBehaviour
         ApplyMovement();
         CheckProjectile();
 
-
         if (m_ShowDebugRays)
         {
             Debug.DrawRay(transform.position + m_Character.center, m_LocalForward, Color.red);
-            //Debug.DrawLine(gameObject.transform.position, m_Target, Color.blue);
+            Debug.DrawLine(gameObject.transform.position, m_Target, Color.blue);
         }
     }
 
@@ -97,35 +99,47 @@ public class PlayerInputActionMapping : MonoBehaviour
         }
     }
 
+    private Vector3 GetProjectileDirection(Vector3 start)
+    {
+        Vector3 dir;
+
+        if (m_MouseControl)
+        {
+            Vector3 pos = Vector3.zero;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (m_TargetPlane.Raycast(ray, out float distance))
+            {
+                pos = ray.GetPoint(distance);
+            }
+            dir = Vector3.Normalize(pos - start);
+        }
+        else
+        {
+            // LocalForward * LookCache.y defines forward direction
+            // -LocalLeft * LookCache.x defines the sideways direction
+            dir = Vector3.Normalize(m_LocalForward * m_LookCache.y
+                - m_LocalLeft * m_LookCache.x);
+        }
+
+        return dir;
+    }
+
     /// <summary>
     ///     Casts a ray from the mouse position onto the XZ plane passing through the player
     /// </summary>
     public void LaunchProjectile()
     {
-
-        if (MouseControl)
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (m_TargetPlane.Raycast(ray, out float distance))
-            {
-                m_Target = ray.GetPoint(distance);
-            }
-        }
-        else
-        {
-            m_Target = m_LocalForward * m_MoveCache.x
-                + m_LocalLeft * m_MoveCache.y;
-        }
-
         // Initial projectile position, based on character
         Vector3 start = transform.position + m_Character.center;
 
+        Vector3 dir = GetProjectileDirection(start);
+
         // Projectile destination, based on cursor direction and projectile range
-        Vector3 end =
-            MouseControl ?
-            start + Vector3.Normalize(m_Target - start) * ProjectileRange
-            : start + m_Target * ProjectileRange;
+        Vector3 end = start + dir * ProjectileRange;
+
+        // debugging
+        m_Target = end;
 
         m_ProjectilePool
             .Projectiles.Get()
@@ -139,7 +153,7 @@ public class PlayerInputActionMapping : MonoBehaviour
         if (MovementVector != Vector3.zero) { gameObject.transform.forward = MovementVector; }
 
         // animate movement
-        m_Animator.SetFloat("MovementSpeed", MovementVector.magnitude);
+        m_Animator.SetFloat(AnimatorMovementSpeedKey, MovementVector.magnitude);
     }
 
     /// <summary>
@@ -196,7 +210,6 @@ public class PlayerInputActionMapping : MonoBehaviour
     ///     Watches for the 'Rotate' action which is one of the cases
     ///     where the local direction vectors must be recalculated
     /// </summary>
-    /// <param name="value"></param>
     public void OnRotate(CallbackContext context)
     {
         float activeRotation = context.ReadValue<float>();
@@ -206,7 +219,6 @@ public class PlayerInputActionMapping : MonoBehaviour
     /// <summary>
     ///     Handle movement input
     /// </summary>
-    /// <param name="value"></param>
     public void OnMove(CallbackContext context)
     {
         // Get input from InputSystem
@@ -214,26 +226,36 @@ public class PlayerInputActionMapping : MonoBehaviour
 
         CalculateDirectionVectors();
     }
-    Vector2 m_LookCache;
+
+    /// <summary>
+    ///     Reads a <see cref="Vector2"/> from the <paramref name="context"/>
+    ///     and caches the direction vector for projectile direction
+    /// </summary>
     public void OnLook(CallbackContext context)
     {
-        m_LookCache = context.ReadValue<Vector2>();
+        Vector2 look = context.ReadValue<Vector2>();
 
-        if (m_LookCache.Equals(Vector2.zero))
+        // Update "look" cache from joystick input
+        if (!look.Equals(Vector2.zero))
         {
-            MouseControl = true;
-            Debug.Log("Neutral");
-        }
-        else
-        {
-            Debug.Log(m_LookCache);
-            MouseControl = false;
+            m_LookCache = look;
         }
     }
 
     public void ControlsChanged(PlayerInput input)
     {
-        Debug.Log("Handle controls changed");
+        switch (input.currentControlScheme)
+        {
+            case null:
+                Debug.LogWarning("No input control scheme");
+                break;
+            case KeyboardControlScheme:
+                m_MouseControl = true;
+                break;
+            default:
+                m_MouseControl = false;
+                break;
+        }
     }
 
     #endregion
