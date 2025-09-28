@@ -1,0 +1,19 @@
+<set>
+  <tiles>
+<tile name="Dirt" symmetry="X" weight="1.0"/>
+<tile name="Wall" symmetry="X" weight="1.0"/>
+<tile name="Assets/Prefabs/Obstacles/Barrel" symmetry="X" weight="1.0"/>
+	</tiles>
+<neighbors>  <neighbor left="Wall 0" right="Wall 0"/>
+  <neighbor left="Wall 1" right="Wall 1"/>
+  <neighbor left="Wall 1" right="Dirt 1"/>
+  <neighbor left="Wall 0" right="Dirt 0"/>
+  <neighbor left="Dirt 0" right="Dirt 0"/>
+  <neighbor left="Dirt 1" right="Wall 1"/>
+  <neighbor left="Dirt 0" right="Wall 0"/>
+  <neighbor left="Dirt 1" right="Assets/Prefabs/Obstacles/Barrel 1"/>
+  <neighbor left="Dirt 0" right="Assets/Prefabs/Obstacles/Barrel 0"/>
+  <neighbor left="Assets/Prefabs/Obstacles/Barrel 0" right="Dirt 0"/>
+  <neighbor left="Assets/Prefabs/Obstacles/Barrel 1" right="Dirt 1"/>
+	</neighbors>
+</set>
