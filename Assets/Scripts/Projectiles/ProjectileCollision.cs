@@ -3,6 +3,7 @@ using UnityEngine.Events;
 
 public class ProjectileCollision : MonoBehaviour
 {
+    [System.Serializable]
     public enum Reaction
     {
         Block,
@@ -23,6 +24,8 @@ public class ProjectileCollision : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        if (!enabled) { return; }
+
         if (!other.TryGetComponent<IProjectile>(out var projectile)) { return; }
 
         Debug.Log($"Projectile collided with {gameObject.name} to trigger. ReactionMode Mode: {ReactionMode}");
@@ -35,7 +38,6 @@ public class ProjectileCollision : MonoBehaviour
             case Reaction.Event:
                 OnCollision?.Invoke(projectile);
                 break;
-
         }
 
         m_Last = projectile;
@@ -50,4 +52,8 @@ public class ProjectileCollision : MonoBehaviour
         projectile.Decoration = true;
         projectile.Dispose();
     }
+
+    public void SetReactionModeBlock() => ReactionMode = Reaction.Block;
+
+    public void SetReactionModeEvent() => ReactionMode = Reaction.Event;
 }

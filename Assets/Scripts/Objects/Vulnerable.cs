@@ -8,7 +8,9 @@ public class Vulnerable : MonoBehaviour, IVulnerable
     private float restoreCache;
     public float RestoreTime = 5;
 
-    public float HitPoints { get; set; } = 5;
+    public float InitialHitPoints = 5;
+
+    public float HitPoints { get; set; }
 
     public bool IsDamaged => HitPoints <= 0;
 
@@ -19,22 +21,22 @@ public class Vulnerable : MonoBehaviour, IVulnerable
 
     public UnityEvent Restored => m_Restored;
 
+    public void Start()
+    {
+        HitPoints = InitialHitPoints;
+    }
+
     public void Update()
     {
         if (dirty)
         {
             dirty = false;
 
-            if (IsDamaged)
-            {
-                Damaged?.Invoke();
-                restoreCache = 0;
-            }
-            else
-            {
-                Restored?.Invoke();
-            }
+            if (IsDamaged) { Damage(); }
         }
+
+        // No 'Restore' logic if time is set below 0
+        if (RestoreTime < 0) { return; }
 
         if (IsDamaged)
         {
@@ -44,6 +46,7 @@ public class Vulnerable : MonoBehaviour, IVulnerable
         if (restoreCache > RestoreTime)
         {
             dirty = true;
+            Restore();
         }
     }
 
@@ -57,5 +60,18 @@ public class Vulnerable : MonoBehaviour, IVulnerable
         {
             dirty = true;
         }
+    }
+
+    protected void Damage()
+    {
+        Damaged?.Invoke();
+        restoreCache = 0;
+    }
+
+    protected void Restore()
+    {
+        Restored?.Invoke();
+        HitPoints = InitialHitPoints;
+        restoreCache = 0;
     }
 }
