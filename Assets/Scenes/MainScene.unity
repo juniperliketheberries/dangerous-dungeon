@@ -119,6 +119,74 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &47846941
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 112810452922226542, guid: d80b362f5918cc34990a8dd577474616,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 112810452922226542, guid: d80b362f5918cc34990a8dd577474616,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 112810452922226542, guid: d80b362f5918cc34990a8dd577474616,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10.499996
+      objectReference: {fileID: 0}
+    - target: {fileID: 112810452922226542, guid: d80b362f5918cc34990a8dd577474616,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: 112810452922226542, guid: d80b362f5918cc34990a8dd577474616,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 112810452922226542, guid: d80b362f5918cc34990a8dd577474616,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: 112810452922226542, guid: d80b362f5918cc34990a8dd577474616,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 112810452922226542, guid: d80b362f5918cc34990a8dd577474616,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 112810452922226542, guid: d80b362f5918cc34990a8dd577474616,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 112810452922226542, guid: d80b362f5918cc34990a8dd577474616,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 386571876291792870, guid: d80b362f5918cc34990a8dd577474616,
+        type: 3}
+      propertyPath: m_Name
+      value: Crypt
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d80b362f5918cc34990a8dd577474616, type: 3}
 --- !u!114 &81705884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10811,6 +10879,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 627868006090482507, guid: 57c66712c16873a4185e4b09fc7bac34,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1124819840646190443, guid: 57c66712c16873a4185e4b09fc7bac34,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2020031134146650159, guid: 57c66712c16873a4185e4b09fc7bac34,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4924868798210340827, guid: 57c66712c16873a4185e4b09fc7bac34,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10861,10 +10944,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5451946937825713527, guid: 57c66712c16873a4185e4b09fc7bac34,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5471765769700413638, guid: 57c66712c16873a4185e4b09fc7bac34,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7330022738238003441, guid: 57c66712c16873a4185e4b09fc7bac34,
         type: 3}
       propertyPath: m_Name
       value: Small Dungeon Map
+      objectReference: {fileID: 0}
+    - target: {fileID: 7965778402325575549, guid: 57c66712c16873a4185e4b09fc7bac34,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8582876986355589111, guid: 57c66712c16873a4185e4b09fc7bac34,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11535,3 +11638,4 @@ SceneRoots:
   - {fileID: 957949656}
   - {fileID: 1652482514577595544}
   - {fileID: 1696977914}
+  - {fileID: 47846941}
