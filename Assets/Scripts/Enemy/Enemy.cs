@@ -40,7 +40,11 @@ public class Enemy : MonoBehaviour, IEnemy
     [Header("Gameplay Settings")]
     [SerializeField] private float m_InitialHitPoints = 1f;
     private float m_HitPoints;
+
+    public float InitialHitPoints { get => m_InitialHitPoints; set => m_InitialHitPoints = value; }
     public float HitPoints { get => m_HitPoints; set => m_HitPoints = value; }
+
+    public float LastHitTime { get; set; }
 
     public bool IsDamaged => HitPoints <= 0;
 
@@ -92,6 +96,8 @@ public class Enemy : MonoBehaviour, IEnemy
     public virtual void Hit(IProjectile projectile)
     {
         (this as IVulnerable).HandleCollision(projectile);
+
+        LastHitTime = Time.time;
 
         Debug.Log($"Enemy {name} now has {HitPoints} hitpoints");
 

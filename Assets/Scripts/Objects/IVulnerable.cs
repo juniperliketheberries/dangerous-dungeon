@@ -2,9 +2,13 @@ using UnityEngine.Events;
 
 public interface IVulnerable
 {
+    public float InitialHitPoints { get; set; }
+
     public float HitPoints { get; set; }
 
     public bool IsDamaged { get; }
+
+    public float LastHitTime { get; }
 
     public UnityEvent Damaged { get; }
 

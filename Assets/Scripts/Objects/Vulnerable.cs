@@ -8,9 +8,12 @@ public class Vulnerable : MonoBehaviour, IVulnerable
     private float restoreCache;
     public float RestoreTime = 5;
 
-    public float InitialHitPoints = 5;
+    [field:SerializeField]
+    public float InitialHitPoints { get; set; } = 5;
 
     public float HitPoints { get; set; }
+
+    public float LastHitTime { get; set; }
 
     public bool IsDamaged => HitPoints <= 0;
 
@@ -53,6 +56,8 @@ public class Vulnerable : MonoBehaviour, IVulnerable
     public virtual void Hit(IProjectile projectile)
     {
         (this as IVulnerable).HandleCollision(projectile);
+
+        LastHitTime = Time.time;
 
         Debug.Log($"Object {name} now has {HitPoints} hitpoints");
 

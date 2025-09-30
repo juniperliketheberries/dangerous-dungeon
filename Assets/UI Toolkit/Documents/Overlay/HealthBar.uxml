@@ -1,0 +1,15 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/StyleSheets/Overlay/HealthBar.uss?fileID=7433441132597879392&amp;guid=beacbbdea81c74c4589a2b6a461bab25&amp;type=3#HealthBar" />
+    <engine:VisualElement name="HealthBar" class="bar" style="flex-shrink: 0; flex-grow: 0; position: absolute;">
+        <engine:VisualElement name="BarContainerBackground" class="bar-container" style="position: absolute;">
+            <engine:VisualElement name="BarEndLeftBackground" class="bar-end" style="background-image: url(&quot;project://database/Assets/Sprites/UI/Bars/barBack_horizontalLeft.png?fileID=2800000&amp;guid=318d598a12ad74541920f03b9a49dcde&amp;type=3#barBack_horizontalLeft&quot;);" />
+            <engine:VisualElement name="BarCenterBackground" class="bar-center" style="background-image: url(&quot;project://database/Assets/Sprites/UI/Bars/barBack_horizontalMid.png?fileID=2800000&amp;guid=4198d564bd75f3f42993086bd56ed4a3&amp;type=3#barBack_horizontalMid&quot;);" />
+            <engine:VisualElement name="BarEndRightBackground" class="bar-end" style="background-image: url(&quot;project://database/Assets/Sprites/UI/Bars/barBack_horizontalRight.png?fileID=2800000&amp;guid=6ee3d2fb844b6c44e9efe6a9886d5f55&amp;type=3#barBack_horizontalRight&quot;);" />
+        </engine:VisualElement>
+        <engine:VisualElement name="BarContainer" class="bar-container" style="position: absolute;">
+            <engine:VisualElement name="BarEndLeft" class="bar-end" style="background-image: url(&quot;project://database/Assets/Sprites/UI/Bars/barRed_horizontalLeft.png?fileID=2800000&amp;guid=2e6f8fd028faf0c419b37774122efd66&amp;type=3#barRed_horizontalLeft&quot;);" />
+            <engine:VisualElement name="BarCenter" class="bar-center" style="background-image: url(&quot;project://database/Assets/Sprites/UI/Bars/barRed_horizontalMid.png?fileID=2800000&amp;guid=49266d251e55c9947807e60ccc4a3108&amp;type=3#barRed_horizontalMid&quot;); flex-grow: 0; flex-shrink: 0;" />
+            <engine:VisualElement name="BarEndRight" class="bar-end" style="background-image: url(&quot;project://database/Assets/Sprites/UI/Bars/barRed_horizontalRight.png?fileID=2800000&amp;guid=6057928267d27da49af567d7d271fb0c&amp;type=3#barRed_horizontalRight&quot;);" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>
