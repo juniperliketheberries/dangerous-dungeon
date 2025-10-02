@@ -1,0 +1,19 @@
+.unity-button {
+    width: 35%;
+    min-width: 180px;
+}
+
+.header-title {
+    font-size: 42px;
+    -unity-font-definition: resource('Fonts/Roboto-Regular');
+    -unity-font-style: bold;
+    -unity-text-align: upper-center;
+}
+
+.accent-separator {
+    background-image: url("project://database/Assets/Sprites/UI/Dividers/divider-fade-005.png?fileID=2800000&guid=46a7c9c7f872dea449170e39575ddd36&type=3#divider-fade-005");
+    -unity-background-image-tint-color: rgb(212, 212, 212);
+    -unity-background-scale-mode: scale-to-fit;
+    margin-left: 8px;
+    margin-right: 8px;
+}

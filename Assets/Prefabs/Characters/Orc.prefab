@@ -189,10 +189,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b38dff5f57af0204abf02e6024a51601, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <InitialPoints>k__BackingField: 4
+  <Damaged>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
   m_Controller: {fileID: 2358997351788537795}
   m_Animator: {fileID: 3586837444626767496}
   m_MovementSpeed: 1
-  m_InitialHitPoints: 1
 --- !u!114 &4092669482070902728
 MonoBehaviour:
   m_ObjectHideFlags: 0

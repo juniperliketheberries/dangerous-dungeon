@@ -1,35 +1,37 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
+
+/// <summary>
+///     A class of objects which can receive hits and be damaged
+/// </summary>
 public class Vulnerable : MonoBehaviour, IVulnerable
 {
     private bool dirty = false;
 
-    private float restoreCache;
-    public float RestoreTime = 5;
-
     [field:SerializeField]
-    public float InitialHitPoints { get; set; } = 5;
+    public float InitialPoints { get; set; } = 5;
 
-    public float HitPoints { get; set; }
+    public float CurrentPoints { get; set; }
 
-    public float LastHitTime { get; set; }
+    public float LastHitTime { get; protected set; }
 
-    public bool IsDamaged => HitPoints <= 0;
+    // Events
+    [field: FormerlySerializedAs("m_Damaged")]
+    [field: SerializeField]
+    public UnityEvent Damaged { get; set; }
 
-    [SerializeField] private UnityEvent m_Damaged;
-    [SerializeField] private UnityEvent m_Restored;
+    // Derived Properties
+    public bool IsDamaged => CurrentPoints <= 0;
 
-    public UnityEvent Damaged => m_Damaged;
 
-    public UnityEvent Restored => m_Restored;
-
-    public void Start()
+    protected virtual void Start()
     {
-        HitPoints = InitialHitPoints;
+        CurrentPoints = InitialPoints;
     }
 
-    public void Update()
+    protected virtual void Update()
     {
         if (dirty)
         {
@@ -37,46 +39,36 @@ public class Vulnerable : MonoBehaviour, IVulnerable
 
             if (IsDamaged) { Damage(); }
         }
-
-        // No 'Restore' logic if time is set below 0
-        if (RestoreTime < 0) { return; }
-
-        if (IsDamaged)
-        {
-            restoreCache += Time.deltaTime;
-        }
-
-        if (restoreCache > RestoreTime)
-        {
-            dirty = true;
-            Restore();
-        }
     }
 
     public virtual void Hit(IProjectile projectile)
     {
-        (this as IVulnerable).HandleCollision(projectile);
+        HandleCollision(projectile);
 
         LastHitTime = Time.time;
 
-        Debug.Log($"Object {name} now has {HitPoints} hitpoints");
+        // Subtract from hitpoints on collision
+        if (!IsDamaged) 
+        {
+            CurrentPoints--; 
+        }
 
         if (IsDamaged && !dirty)
         {
             dirty = true;
         }
+
+        Debug.Log($"Object {name} now has {CurrentPoints} hitpoints");
     }
 
-    protected void Damage()
-    {
-        Damaged?.Invoke();
-        restoreCache = 0;
-    }
+    protected virtual void Damage() => Damaged?.Invoke();
 
-    protected void Restore()
+    private void HandleCollision(IProjectile projectile)
     {
-        Restored?.Invoke();
-        HitPoints = InitialHitPoints;
-        restoreCache = 0;
+        projectile.Decoration = true;
+
+        // Eventually projectiles may "pierce" and should 
+        // not be disposed on contact
+        projectile.Dispose();
     }
 }

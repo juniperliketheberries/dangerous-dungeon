@@ -26,6 +26,7 @@ public class MenuUIController : MonoBehaviour
     private VisualElement settingsTabbedUI;
 
     // Menu actions
+    private Button continueButton;
     private Button settingsButton;
     private Button restartButton;
     private Button quitButton;
@@ -35,6 +36,7 @@ public class MenuUIController : MonoBehaviour
     public UIDocument Document;
 
     [Header("Events")]
+    public UnityEvent Closed;
     public UnityEvent Restart;
     public UnityEvent Quit;
 
@@ -44,6 +46,7 @@ public class MenuUIController : MonoBehaviour
         root = Document.rootVisualElement;
 
         // Reference buttons
+        continueButton = root.Q<Button>("buttonContinue");
         settingsButton = root.Q<Button>("buttonSettings");
         restartButton = root.Q<Button>("buttonRestart");
         quitButton = root.Q<Button>("buttonQuit");
@@ -51,6 +54,7 @@ public class MenuUIController : MonoBehaviour
         menuActions = root.Q<VisualElement>("actions");
         settingsTabbedUI = root.Q<VisualElement>("settingsTabbedUI");
 
+        continueButton.clicked += OnContinue;
         settingsButton.clicked += OnSettings;
         restartButton.clicked += OnRestart;
         quitButton.clicked += OnQuit;
@@ -61,6 +65,7 @@ public class MenuUIController : MonoBehaviour
 
     public virtual void OnDisable()
     {
+        continueButton.clicked -= OnContinue;
         settingsButton.clicked -= OnSettings;
         restartButton.clicked -= OnRestart;
         quitButton.clicked -= OnQuit;
@@ -68,6 +73,8 @@ public class MenuUIController : MonoBehaviour
         settingsContent.Enabled -= HideActions;
         settingsContent.Disabled -= ShowActions;
     }
+
+    private void OnContinue() => Closed?.Invoke();
 
     private void OnRestart() => Restart?.Invoke();
 

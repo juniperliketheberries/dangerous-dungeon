@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.Serialization;
 
-public interface IEnemy : IVulnerable, IPoolable
+public interface IEnemy
 {
     public CharacterController Controller { get; }
 
@@ -13,10 +12,12 @@ public interface IEnemy : IVulnerable, IPoolable
     public float Speed { get ; set; }
 
     public void Move();
+
+    public void Reset();
 }
 
 
-public class Enemy : MonoBehaviour, IEnemy
+public class Enemy : Vulnerable, IEnemy
 {
     private const float DeathAnimWaitTime = 1.3f;
     private readonly int AnimMoveSpeedKey = Animator.StringToHash("MovementSpeed");
@@ -33,26 +34,9 @@ public class Enemy : MonoBehaviour, IEnemy
     [Header("Movement Settings")]
     [SerializeField] private Animator m_Animator;
     [SerializeField, Range(0.1f, 10f)] private float m_MovementSpeed = 1f;
-    
 
     public float Speed { get => m_MovementSpeed; set => m_MovementSpeed = value; }
 
-    [Header("Gameplay Settings")]
-    [SerializeField] private float m_InitialHitPoints = 1f;
-    private float m_HitPoints;
-
-    public float InitialHitPoints { get => m_InitialHitPoints; set => m_InitialHitPoints = value; }
-    public float HitPoints { get => m_HitPoints; set => m_HitPoints = value; }
-
-    public float LastHitTime { get; set; }
-
-    public bool IsDamaged => HitPoints <= 0;
-
-
-    // TODO 
-    public UnityEvent Damaged => throw new NotImplementedException();
-
-    public UnityEvent Restored => throw new NotImplementedException();
 
     protected virtual void OnValidate()
     {
@@ -60,7 +44,7 @@ public class Enemy : MonoBehaviour, IEnemy
     }
 
 
-    protected virtual void Start()
+    protected override void Start()
     {
         // Inject this externally through EnemyManager
         m_Target = GameObject.FindGameObjectWithTag("Player");
@@ -70,13 +54,17 @@ public class Enemy : MonoBehaviour, IEnemy
             Debug.LogWarning("Entity has no player to follow");
             Destroy(gameObject);
         }
+
+        Damaged.AddListener(Die);
     }
 
     /// <summary>
     ///     Uses the <see cref="CharacterController"/> to move the entity and respect collisions
     /// </summary>
-    protected virtual void Update()
+    protected override void Update()
     {
+        base.Update();
+
         Move();
     }
 
@@ -93,17 +81,6 @@ public class Enemy : MonoBehaviour, IEnemy
         m_Animator.SetFloat(AnimMoveSpeedKey, directionVector.magnitude);
     }
 
-    public virtual void Hit(IProjectile projectile)
-    {
-        (this as IVulnerable).HandleCollision(projectile);
-
-        LastHitTime = Time.time;
-
-        Debug.Log($"Enemy {name} now has {HitPoints} hitpoints");
-
-        if (IsDamaged) { Die(); }
-    }
-
     public virtual void Die()
     {
         m_Controller.enabled = false;
@@ -112,8 +89,6 @@ public class Enemy : MonoBehaviour, IEnemy
 
     protected virtual IEnumerator DieCoroutine()
     {
-        // Could play a death animation here
-        //yield return new WaitForSeconds(1);
         m_Animator.SetBool(AnimDeadParam, true);
 
         yield return new WaitForSeconds(DeathAnimWaitTime);
@@ -121,12 +96,9 @@ public class Enemy : MonoBehaviour, IEnemy
         OnDeath?.Invoke();
     }
 
-    public void New()
+    public void Reset()
     {
         m_Animator.SetBool(AnimDeadParam, false);
-        m_HitPoints = m_InitialHitPoints;
+        CurrentPoints = InitialPoints;
     }
-
-    // Currently not used, but can be called from the Object Pool
-    public void Free() { }
 }

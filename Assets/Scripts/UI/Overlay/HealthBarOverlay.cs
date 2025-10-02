@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UIElements;
@@ -9,24 +7,19 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(UIDocument))]
 public class HealthBarOverlay : MonoBehaviour
 {
+    private const string BarElementName = "BarCenter";
+
+    private readonly List<VisualElement> visualElementCache = new();
+
+    private UIDocument document;
+
     [Header("Configuration")]
     public float BarWidth = 120f;
 
     public VisualTreeAsset HealthBarResource;
 
-    // Cache fiels
-    private UIDocument document;
-    private VisualElement healthBarInstance;
-    //TODO use pool for multiple bars
-
-
-    private Vulnerable[] elements;
-
-    private GameObject player;
-
 
     private IObjectPool<VisualElement> m_ElementPool = null;
-
 
     public IObjectPool<VisualElement> ElementPool
     {
@@ -71,65 +64,42 @@ public class HealthBarOverlay : MonoBehaviour
     void Start()
     {
         document = GetComponent<UIDocument>();
-
-        healthBarInstance = HealthBarResource.Instantiate();
-
-        document.rootVisualElement.Add(healthBarInstance);
-
-        healthBarInstance.style.position = Position.Absolute;
-
-        player = GameObject.FindWithTag("Player");
     }
-
-
-    private List<VisualElement> used = new();
-    private List<IVulnerable> list = new();
 
 
     // Update is called once per frame
     void Update()
     {
-        if (healthBarInstance == null) { return; }
-
-        if (player == null) { return; }
-
-        foreach (VisualElement element in used)
-        {
-            ElementPool.Release(element);
-        }
-
-        used.Clear();
+        // Release each element and then clear the cache.
+        // A 'health bar' is not bound to an entity, so it can be used for
+        // different entities during each frame. This is not great as it
+        // prevents health bar animations from working properly.
+        visualElementCache.ForEach(element => ElementPool.Release(element));
+        visualElementCache.Clear();
 
         // Very expensive, don't do this
-
-        // Also this is bad polymorphism since IVulnerable does not have information about object position. But it could
         foreach (Vulnerable vuln in FindObjectsByType<Vulnerable>(FindObjectsSortMode.None))
         {
-            ApplyHealthBar(vuln, vuln.transform.position);
-        }
-
-        foreach (Enemy vuln in FindObjectsByType<Enemy>(FindObjectsSortMode.None))
-        {
-            ApplyHealthBar(vuln, vuln.transform.position);
+            ApplyHealthBar(vuln);
         }
     }
 
-    void ApplyHealthBar(IVulnerable vuln, Vector3 worldPosition)
+    void ApplyHealthBar(Vulnerable vuln)
     {
-        if (vuln.IsDamaged) { return; }
+        if (vuln.IsDamaged ||
+            vuln.InitialPoints == 0 ||
+            vuln.InitialPoints == vuln.CurrentPoints ||
+            Time.time - vuln.LastHitTime >= 5)
+        { return; }
 
-        if (vuln.InitialHitPoints == 0
-            || vuln.InitialHitPoints == vuln.HitPoints) { return; }
-
-        if (Time.time - vuln.LastHitTime >= 5) { return; }
 
         VisualElement element = ElementPool.Get();
 
-        used.Add(element);
+        visualElementCache.Add(element);
 
-        VisualElement bar = element.Q<VisualElement>("BarCenter");
+        VisualElement bar = element.Q<VisualElement>(BarElementName);
 
-        Vector3 screenPoint = Camera.main.WorldToViewportPoint(worldPosition + Vector3.up);
+        Vector3 screenPoint = Camera.main.WorldToViewportPoint(vuln.transform.position + Vector3.up);
 
         float width = document.rootVisualElement.layout.width;
         float height = document.rootVisualElement.layout.height;
@@ -137,6 +107,6 @@ public class HealthBarOverlay : MonoBehaviour
         element.style.left = width * screenPoint.x - (BarWidth / 2);
         element.style.bottom = height * screenPoint.y;
 
-        bar.style.width = Length.Percent(vuln.HitPoints / vuln.InitialHitPoints * 100f);
+        bar.style.width = Length.Percent(vuln.CurrentPoints / vuln.InitialPoints * 100f);
     }
 }

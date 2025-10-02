@@ -78,6 +78,11 @@ PrefabInstance:
       propertyPath: m_InitialHitPoints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2734739173552357259, guid: 49c4984784d6ac1428f0c081f921ce72,
+        type: 3}
+      propertyPath: <InitialPoints>k__BackingField
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4247820572255976552, guid: 49c4984784d6ac1428f0c081f921ce72,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

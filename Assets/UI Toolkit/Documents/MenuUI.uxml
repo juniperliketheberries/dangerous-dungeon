@@ -1,19 +1,21 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <engine:Template name="SettingsTabbedUI" src="project://database/Assets/UI%20Toolkit/Documents/SettingsTabbedUI.uxml?fileID=9197481963319205126&amp;guid=e676d9236535119488987436ecba8e2a&amp;type=3#SettingsTabbedUI" />
-    <Style src="project://database/Assets/GlobalStyle.uss?fileID=7433441132597879392&amp;guid=8cc8745940a12ce45be90544a3a1f0dd&amp;type=3#GlobalStyle" />
-    <engine:VisualElement name="container" style="flex-grow: 1; margin-top: 64px; margin-right: 64px; margin-bottom: 64px; margin-left: 64px; padding-top: 12px; padding-right: 12px; padding-bottom: 12px; padding-left: 12px; transition-duration: 2s; transition-timing-function: ease; transition-property: opacity; visibility: visible;">
-        <engine:VisualElement name="mainBackground" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Sprites/UI/Panels/panel-transparent-center-010.png?fileID=2800000&amp;guid=ec8f7cf39fac7da479837c226dcf4ba0&amp;type=3#panel-transparent-center-010&quot;); -unity-slice-left: 26; -unity-slice-top: 26; -unity-slice-right: 26; -unity-slice-bottom: 26; -unity-background-scale-mode: stretch-to-fill; -unity-background-image-tint-color: rgb(0, 0, 0); position: absolute; flex-shrink: 0; top: 0; left: 0; right: 0; bottom: 0;" />
-        <engine:VisualElement name="header" style="flex-grow: 0; flex-direction: row; align-items: center; justify-content: space-evenly; height: 12%; flex-shrink: 0;">
+    <Style src="project://database/Assets/UI%20Toolkit/StyleSheets/GlobalStyle.uss?fileID=7433441132597879392&amp;guid=8cc8745940a12ce45be90544a3a1f0dd&amp;type=3#GlobalStyle" />
+    <Style src="project://database/Assets/UI%20Toolkit/StyleSheets/Menu/MainMenu.uss?fileID=7433441132597879392&amp;guid=cf0166e0eac6bf745bb72739b01b555a&amp;type=3#MainMenu" />
+    <engine:VisualElement name="mainBackground" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Sprites/UI/Panels/panel-transparent-center-010.png?fileID=2800000&amp;guid=ec8f7cf39fac7da479837c226dcf4ba0&amp;type=3#panel-transparent-center-010&quot;); -unity-slice-left: 24; -unity-slice-top: 24; -unity-slice-right: 24; -unity-slice-bottom: 24; -unity-background-scale-mode: stretch-to-fill; -unity-background-image-tint-color: rgb(53, 53, 53); position: absolute; flex-shrink: 0; top: 0; left: 1px; right: -1px; bottom: 0; margin-top: 64px; margin-right: 64px; margin-bottom: 64px; margin-left: 64px; min-width: 240px; min-height: 440px;" />
+    <engine:VisualElement name="container" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 64px; padding-right: 64px; padding-bottom: 64px; padding-left: 64px; transition-duration: 2s; transition-timing-function: ease; transition-property: opacity; background-color: rgba(0, 0, 0, 0.24); min-height: 440px; min-width: 240px;">
+        <engine:VisualElement name="header" style="flex-grow: 0; flex-direction: row; align-items: center; justify-content: space-evenly; height: 72px; flex-shrink: 0; padding-top: 12px; padding-bottom: 12px;">
             <engine:VisualElement style="flex-grow: 1;" />
-            <engine:VisualElement name="separatorLeft" style="background-image: url(&quot;project://database/Assets/Sprites/UI/Dividers/divider-fade-005.png?fileID=2800000&amp;guid=46a7c9c7f872dea449170e39575ddd36&amp;type=3#divider-fade-005&quot;); -unity-background-scale-mode: scale-to-fit; -unity-background-image-tint-color: rgb(255, 255, 255); width: 100px; height: 36px; flex-grow: 1;" />
-            <engine:Label text="Paused" name="title" class="h1 unity-text-shadow" style="-unity-font-style: bold; width: auto;" />
-            <engine:VisualElement name="separatorRight" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Sprites/UI/Dividers/divider-fade-005.png?fileID=2800000&amp;guid=46a7c9c7f872dea449170e39575ddd36&amp;type=3#divider-fade-005&quot;); -unity-background-scale-mode: scale-to-fit; rotate: 180deg; -unity-background-image-tint-color: rgb(255, 255, 255); width: 100px; height: 36px;" />
+            <engine:VisualElement name="separatorLeft" class="accent-separator" style="width: 100px; height: 36px; flex-grow: 1;" />
+            <engine:Label text="Dangerous Dungeon" name="title" class="header-title" style="-unity-font-style: bold; font-size: 29px;" />
+            <engine:VisualElement name="separatorRight" class="accent-separator" style="flex-grow: 1; width: 100px; height: 36px; scale: -1 1;" />
             <engine:VisualElement style="flex-grow: 1;" />
         </engine:VisualElement>
-        <engine:VisualElement name="actions" style="flex-grow: 1; align-items: center; flex-direction: column; margin-top: 5%; justify-content: space-evenly; margin-right: 5%; margin-bottom: 5%; margin-left: 5%; flex-shrink: 0;">
-            <engine:Button text="Settings" name="buttonSettings" style="width: 36%; font-size: 24px;" />
-            <engine:Button text="Restart" name="buttonRestart" tooltip="Restart the game" style="width: 36%; font-size: 24px;" />
-            <engine:Button text="Quit" name="buttonQuit" tooltip="Quit to desktop (Windows only)" style="width: 36%; font-size: 24px;" />
+        <engine:VisualElement name="actions" style="flex-grow: 1; align-items: center; flex-direction: column; margin-top: 5%; justify-content: space-evenly; margin-right: 5%; margin-bottom: 5%; margin-left: 5%; flex-shrink: 0; text-shadow: 2px 0 0 rgba(0, 0, 0, 0); min-height: 280px;">
+            <engine:Button text="Continue" name="buttonContinue" />
+            <engine:Button text="Settings" name="buttonSettings" />
+            <engine:Button text="Restart" name="buttonRestart" tooltip="Restart the game" />
+            <engine:Button text="Quit" name="buttonQuit" tooltip="Quit to desktop (Windows only)" />
         </engine:VisualElement>
         <engine:Instance template="SettingsTabbedUI" name="settingsTabbedUI" style="flex-grow: 1; display: none;" />
     </engine:VisualElement>

@@ -1,23 +1,28 @@
 .unity-button {
-    -unity-font-definition: resource('Fonts/Roboto-Regular');
     -unity-font-style: bold;
-    text-shadow: 2px 2px 0 rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
-    background-image: url("project://database/Assets/Sprites/UI/Panels/panel-transparent-center-009.png?fileID=1156830282&guid=9a8dbade463999c4b8380dea3e411375&type=3#panel-transparent-center-009_0");
+    background-image: url("project://database/Assets/Sprites/UI/Panels/panel-transparent-center-010.png?fileID=1683634519&guid=ec8f7cf39fac7da479837c226dcf4ba0&type=3#panel-transparent-center-010_0");
     background-color: rgba(0, 0, 0, 0);
-    -unity-background-image-tint-color: rgb(176, 176, 176);
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
+    -unity-background-image-tint-color: rgb(159, 159, 159);
     padding-top: 20px;
     padding-right: 24px;
     padding-bottom: 20px;
     padding-left: 24px;
+    -unity-slice-left: 24;
+    -unity-slice-top: 24;
+    -unity-slice-right: 24;
+    -unity-slice-bottom: 24;
+    font-size: 24px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    transition-duration: 0.15s;
+    transition-property: -unity-background-image-tint-color;
+    text-shadow: 2px 2px 0 rgb(84, 84, 84);
 }
 
 .unity-button:hover {
-    -unity-background-image-tint-color: rgb(229, 229, 229);
+    -unity-background-image-tint-color: rgb(219, 219, 219);
 }
 
 .unity-button:active {
@@ -26,17 +31,5 @@
 
 .unity-text-element {
     -unity-font-definition: resource('Fonts/Roboto-Regular');
-    -unity-font-style: bold;
-    color: rgb(255, 255, 255);
-}
-
-.unity-text-shadow {
-    text-shadow: 2px 2px 0 rgb(0, 0, 0);
-}
-
-.h1 {
-    font-size: 42px;
-    -unity-font-definition: resource('Fonts/Roboto-Regular');
-    -unity-font-style: bold;
-    -unity-text-align: upper-center;
+    color: rgb(224, 224, 224);
 }

@@ -85,7 +85,7 @@ public class EnemyManager : MonoBehaviour
         int index = Random.Range(0, SpawnPoints.Length);
 
         // Resets the enemy back to its default settings
-        enemy.New();
+        enemy.Reset();
 
         enemy.Controller.enabled = false;
         enemy.Controller.transform.position = SpawnPoints[index].transform.position;
