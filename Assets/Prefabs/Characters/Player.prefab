@@ -184,11 +184,11 @@ MonoBehaviour:
   InputActions: {fileID: 8169687759651585970}
   Controller: {fileID: 4167319491949078352}
   Stats:
-    Level: 0
-    Endurance: 50
-    Strength: 70
-    Dexterity: 60
-    Intelligence: 50
+    level: 1
+    endurance: 50
+    strength: 70
+    dexterity: 60
+    intelligence: 50
 --- !u!143 &4167319491949078352
 CharacterController:
   m_ObjectHideFlags: 0
@@ -304,6 +304,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 5167761f-f5cd-49ce-b7be-f3c28d936198
     m_ActionName: 'UI/Menu[/XInputControllerWindows/start,/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 477b32a9-72aa-449e-b6ab-6e6f2e980217
+    m_ActionName: Player/Look
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

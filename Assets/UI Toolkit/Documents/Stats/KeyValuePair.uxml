@@ -1,0 +1,6 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:VisualElement name="labelPair" style="flex-direction: row; align-self: stretch; justify-content: space-around;">
+        <engine:Label text="key" name="labelKey" style="font-size: 24px; align-self: stretch; justify-content: space-around; flex-grow: 1; text-overflow: ellipsis; -unity-text-align: middle-left;" />
+        <engine:Label text="value" name="labelValue" style="font-size: 34px; align-self: flex-end; flex-grow: 1; text-overflow: ellipsis; -unity-text-align: middle-right;" />
+    </engine:VisualElement>
+</engine:UXML>

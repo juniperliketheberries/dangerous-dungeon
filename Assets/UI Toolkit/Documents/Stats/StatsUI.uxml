@@ -1,0 +1,21 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:Template name="KeyValuePair" src="project://database/Assets/UI%20Toolkit/Documents/Stats/KeyValuePair.uxml?fileID=9197481963319205126&amp;guid=61978672360f84d408e8c5bec2dcff64&amp;type=3#KeyValuePair" />
+    <engine:Template name="SettingsTabbedUI" src="project://database/Assets/UI%20Toolkit/Documents/SettingsTabbedUI.uxml?fileID=9197481963319205126&amp;guid=e676d9236535119488987436ecba8e2a&amp;type=3#SettingsTabbedUI" />
+    <Style src="project://database/Assets/UI%20Toolkit/StyleSheets/GlobalStyle.uss?fileID=7433441132597879392&amp;guid=8cc8745940a12ce45be90544a3a1f0dd&amp;type=3#GlobalStyle" />
+    <Style src="project://database/Assets/UI%20Toolkit/StyleSheets/Menu/MainMenu.uss?fileID=7433441132597879392&amp;guid=cf0166e0eac6bf745bb72739b01b555a&amp;type=3#MainMenu" />
+    <engine:VisualElement name="mainBackground" style="background-image: url(&quot;project://database/Assets/Sprites/UI/Panels/panel-transparent-center-010.png?fileID=2800000&amp;guid=ec8f7cf39fac7da479837c226dcf4ba0&amp;type=3#panel-transparent-center-010&quot;); -unity-slice-left: 24; -unity-slice-top: 24; -unity-slice-right: 24; -unity-slice-bottom: 24; -unity-background-scale-mode: stretch-to-fill; -unity-background-image-tint-color: rgb(53, 53, 53); margin-top: 48px; margin-right: 48px; margin-bottom: 48px; margin-left: 48px; position: absolute;">
+        <engine:VisualElement name="container" style="min-width: 320px; align-self: flex-start;">
+            <engine:VisualElement name="header" style="flex-grow: 0; flex-direction: row; align-items: center; justify-content: space-evenly; height: 72px; flex-shrink: 0; padding-top: 12px; padding-bottom: 12px;">
+                <engine:VisualElement style="flex-grow: 1;" />
+                <engine:VisualElement name="separatorLeft" class="accent-separator" style="width: 72px; height: 36px; flex-grow: 1;" />
+                <engine:Label text="Character" name="title" class="header-title" style="-unity-font-style: bold; font-size: 28px;" />
+                <engine:VisualElement name="separatorRight" class="accent-separator" style="flex-grow: 1; width: 72px; height: 36px; scale: -1 1;" />
+                <engine:VisualElement style="flex-grow: 1;" />
+            </engine:VisualElement>
+            <engine:VisualElement name="fields" style="flex-grow: 1; align-items: center; flex-direction: column; flex-shrink: 0; text-shadow: 2px 0 0 rgba(0, 0, 0, 0); min-height: 240px; margin-right: 32px; margin-left: 32px; margin-bottom: 24px;">
+                <engine:Instance template="KeyValuePair" name="KeyValuePair" style="align-self: stretch;" />
+            </engine:VisualElement>
+            <engine:Instance template="SettingsTabbedUI" name="settingsTabbedUI" style="flex-grow: 1; display: none;" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>
